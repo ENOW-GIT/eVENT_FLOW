@@ -39,6 +39,16 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
+        <!-- Role Selection -->
+        <div class="mt-4">
+            <x-input-label for="role" :value="__('Select your role')" />
+            <select name="role" id="role" class="form-select @error('role') is-invalid @enderror block mt-1 w-full" required>
+                <option value="booker" {{ old('role') == 'booker' ? 'selected' : '' }}>Booker (Ticket Buyer)</option>
+                <option value="organizer" {{ old('role') == 'organizer' ? 'selected' : '' }}>Organizer (Event Creator)</option>
+            </select>
+            <x-input-error :messages="$errors->get('role')" class="invalid-feedback" />
+        </div>
+
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
                 {{ __('Already registered?') }}

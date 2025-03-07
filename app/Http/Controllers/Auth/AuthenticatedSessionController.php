@@ -16,7 +16,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('auth.login');
+        return view('frontend.signin');
     }
 
     /**
@@ -24,11 +24,31 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        // Authenticate the user
         $request->authenticate();
 
+        // Regenerate the session to prevent session fixation
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Check the user's role and redirect accordingly
+        $user = Auth::user();
+
+        if ($user->role === 'admin') {
+            // Redirect to the admin dashboard
+            return redirect()->route('admin.dashboard');  // Assuming you have an admin dashboard route
+        }
+
+        if ($user->role === 'organizer') {
+            // Redirect to the organizer's dashboard
+            return redirect()->route('organizer.dashboard');  // Assuming you have an organizer dashboard route
+        }
+        if ($user->role === 'booker') {
+            // Redirect to the booker's event list
+            return redirect()->route('booker.eventlist');  // Assuming you have an events route for bookers
+        }
+
+        // Default fallback if no role matched (in case of error or undefined role)
+        return redirect()->route('/');
     }
 
     /**
@@ -38,10 +58,12 @@ class AuthenticatedSessionController extends Controller
     {
         Auth::guard('web')->logout();
 
+        // Invalidate the session and regenerate token for security
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
+        // Redirect the user to the homepage
         return redirect('/');
     }
 }

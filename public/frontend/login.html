@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="login.css">
+    <script defer src="login.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Bienvenu chez <span>EventFlow</span></h1>
+        <p>Veuillez remplir le formulaire pour vous connecter à votre espace personnel</p>
+        <form id="loginForm" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="email">Email address / Adresse email</label>
+                <input type="email" id="email" name="email" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password / Mot de passe</label>
+                <input type="password" id="password" name="password" value="" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Login / Se connecter</button>
+            </div>
+            <div id="error-message" class="error"></div>
+        </form>
+        <div class="signup-link">
+            Vous n'avez pas de compte? <a href="signup.html">Créer un compte</a>
+        </div>
+    </div>
+</body>
+</html>
